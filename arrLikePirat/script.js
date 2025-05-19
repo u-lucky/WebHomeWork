@@ -1,108 +1,91 @@
-let timerId1;
-document.getElementById('startBtn1').addEventListener('click', () => {
-    if (timerId1) return;
-    const counter = document.getElementById('counter1');
-    timerId1 = setInterval(() => counter.textContent = +counter.textContent + 1, 1000);
-});
-
-// 2. Уменьшение
-let timerId2;
-document.getElementById('startBtn2').addEventListener('click', () => {
-    if (timerId2) return;
-    const counter = document.getElementById('counter2');
-    timerId2 = setInterval(() => {
-        const value = +counter.textContent - 1;
-        counter.textContent = value;
-        if (value <= 0) clearInterval(timerId2);
-    }, 1000);
-});
-
-// 3. Отсчет по blur
-let timerId3;
-document.getElementById('input3').addEventListener('blur', function() {
-    const value = +this.value;
-    if (isNaN(value)) return;
-    const counter = document.getElementById('counter3');
-    if (timerId3) clearInterval(timerId3);
-    counter.textContent = value;
-    timerId3 = setInterval(() => {
-        counter.textContent = +counter.textContent - 1;
-        if (counter.textContent <= 0) clearInterval(timerId3);
-    }, 1000);
-});
-
-// 4. Отсчет по кнопке
-let timerId4;
-document.getElementById('startBtn4').addEventListener('click', () => {
-    const value = +document.getElementById('input4').value;
-    if (isNaN(value)) return;
-    const counter = document.getElementById('counter4');
-    counter.textContent = value;
-    if (timerId4) clearInterval(timerId4);
-    timerId4 = setInterval(() => {
-        counter.textContent = +counter.textContent - 1;
-        if (counter.textContent <= 0) clearInterval(timerId4);
-    }, 1000);
-});
-
-// 5. Сообщение через 10 сек
-document.addEventListener('DOMContentLoaded', () => {
-    setTimeout(() => {
-        document.getElementById('message').textContent = 'Сообщение через 10 секунд';
-    }, 10000);
-});
-
-// Алгоритмы сортировки
-const sortingAlgorithms = {
-    quickSort: arr => {
-        if (arr.length <= 1) return arr;
-        const pivot = arr[Math.floor(arr.length / 2)];
-        const [left, right, equal] = [[], [], []];
-        arr.forEach(num => num < pivot ? left.push(num) : num > pivot ? right.push(num) : equal.push(num));
-        return [...sortingAlgorithms.quickSort(left), ...equal, ...sortingAlgorithms.quickSort(right)];
-    },
-
-    heapSort: arr => {
-        function heapify(arr, n, i) {
-            let largest = i;
-            const left = 2 * i + 1, right = 2 * i + 2;
-            if (left < n && arr[left] > arr[largest]) largest = left;
-            if (right < n && arr[right] > arr[largest]) largest = right;
-            if (largest !== i) {
-                [arr[i], arr[largest]] = [arr[largest], arr[i]];
-                heapify(arr, n, largest);
-            }
-        }
-        const n = arr.length;
-        for (let i = Math.floor(n / 2) - 1; i >= 0; i--) heapify(arr, n, i);
-        for (let i = n - 1; i > 0; i--) {
-            [arr[0], arr[i]] = [arr[i], arr[0]];
-            heapify(arr, i, 0);
-        }
-        return arr;
-    },
-
-    mergeSort: arr => {
-        const merge = (left, right) => {
-            const result = [];
-            while (left.length && right.length) {
-                result.push(left[0] <= right[0] ? left.shift() : right.shift());
-            }
-            return [...result, ...left, ...right];
-        };
-        return arr.length <= 1 ? arr : merge(
-            sortingAlgorithms.mergeSort(arr.slice(0, Math.floor(arr.length / 2))),
-            sortingAlgorithms.mergeSort(arr.slice(Math.floor(arr.length / 2)))
-        );
+// Быстрая сортировка (Quick Sort)
+function quickSort(arr) {
+    if (arr.length <= 1) return arr;
+    const pivot = arr[Math.floor(arr.length / 2)];
+    const [left, right, equal] = [[], [], []];
+    for (const num of arr) {
+        if (num < pivot) left.push(num);
+        else if (num > pivot) right.push(num);
+        else equal.push(num);
     }
-};
-
-function runAllSorts() {
-    const input = document.getElementById('arrayInput').value.split(',').map(Number);
-    const results = document.getElementById('sortResults');
-    results.innerHTML = `
-        QuickSort: ${sortingAlgorithms.quickSort([...input])}<br>
-        HeapSort: ${sortingAlgorithms.heapSort([...input])}<br>
-        MergeSort: ${sortingAlgorithms.mergeSort([...input])}
-    `;
+    return [...quickSort(left), ...equal, ...quickSort(right)];
 }
+
+// Пирамидальная сортировка (Heap Sort)
+function heapSort(arr) {
+    function heapify(arr, n, i) {
+        let largest = i;
+        const left = 2 * i + 1;
+        const right = 2 * i + 2;
+        if (left < n && arr[left] > arr[largest]) largest = left;
+        if (right < n && arr[right] > arr[largest]) largest = right;
+        if (largest !== i) {
+            [arr[i], arr[largest]] = [arr[largest], arr[i]];
+            heapify(arr, n, largest);
+        }
+    }
+
+    const n = arr.length;
+    for (let i = Math.floor(n / 2) - 1; i >= 0; i--) heapify(arr, n, i);
+    for (let i = n - 1; i > 0; i--) {
+        [arr[0], arr[i]] = [arr[i], arr[0]];
+        heapify(arr, i, 0);
+    }
+    return arr;
+}
+
+// Карманная сортировка (Bucket Sort)
+function bucketSort(arr, bucketSize = 5) {
+    if (arr.length === 0) return arr;
+    const [max, min] = [Math.max(...arr), Math.min(...arr)];
+    const bucketCount = Math.floor((max - min) / bucketSize) + 1;
+    const buckets = Array.from({ length: bucketCount }, () => []);
+    for (const num of arr) buckets[Math.floor((num - min) / bucketSize)].push(num);
+    return buckets.flatMap(bucket => bucket.sort((a, b) => a - b));
+}
+
+// Поразрядная сортировка (Radix Sort)
+function radixSort(arr) {
+    const maxDigits = Math.max(...arr).toString().length;
+    for (let i = 0; i < maxDigits; i++) {
+        const buckets = Array.from({ length: 10 }, () => []);
+        for (const num of arr) {
+            const digit = Math.floor(num / 10 ** i) % 10;
+            buckets[digit].push(num);
+        }
+        arr = buckets.flat();
+    }
+    return arr;
+}
+
+// Сортировка подсчетом (Counting Sort)
+function countingSort(arr) {
+    const max = Math.max(...arr);
+    const count = Array(max + 1).fill(0);
+    for (const num of arr) count[num]++;
+    const sorted = [];
+    for (let i = 0; i <= max; i++) while (count[i]--) sorted.push(i);
+    return sorted;
+}
+
+// Сортировка слиянием (Merge Sort)
+function mergeSort(arr) {
+    if (arr.length <= 1) return arr;
+    const mid = Math.floor(arr.length / 2);
+    const left = mergeSort(arr.slice(0, mid));
+    const right = mergeSort(arr.slice(mid));
+    return merge(left, right);
+}
+
+function merge(left, right) {
+    const result = [];
+    while (left.length && right.length) {
+        result.push(left[0] <= right[0] ? left.shift() : right.shift());
+    }
+    return [...result, ...left, ...right];
+}
+
+const data = [34, 7, 23, 32, 5, 62];
+console.log("Merge Sort:", mergeSort([...data]));
+console.log("Quick Sort:", quickSort([...data]));
+console.log("Radix Sort:", radixSort([...data]));
