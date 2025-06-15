@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vue 5</title>
+  <meta charset="utf-8">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h3>Задание 5, День недели</h3>
+    <input type="number" v-model="dayNumber" placeholder="Введите число (1-7)" min="1" max="7">
+    <button @click="showDayOfWeek">Показать день недели</button>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+    
+    const app = createApp({
+      data() {
+        return {
+          dayNumber: null
+        }
+      },
+      methods: {
+        // Задание 5: метод получения дня недели
+        getDayOfWeek(dayNumber) {
+          const days = [
+            'Понедельник', 
+            'Вторник', 
+            'Среда', 
+            'Четверг', 
+            'Пятница', 
+            'Суббота', 
+            'Воскресенье'
+          ];
+          
+          // Проверка на корректный ввод
+          if (dayNumber >= 1 && dayNumber <= 7) {
+            return days[dayNumber - 1];
+          }
+          return 'Неверный номер! Введите число от 1 до 7';
+        },
+        
+        showDayOfWeek() {
+          if (this.dayNumber) {
+            const dayName = this.getDayOfWeek(parseInt(this.dayNumber));
+            alert(dayName);
+          } else {
+            alert('Введите число от 1 до 7');
+          }
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>

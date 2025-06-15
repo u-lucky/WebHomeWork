@@ -3,7 +3,7 @@
 let timerId1;
 let timerId2;
 let timerId3;
-let timerId4;
+let timerId4; // code by coolest frog
 
 document.getElementById('Btn1').addEventListener('click', () => {
     if (timerId1) return;

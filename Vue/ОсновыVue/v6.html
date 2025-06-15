@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Vue 3 - Задание 6</title>
+  <meta charset="utf-8">
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+  <div id="app">
+    <h3>Задание 6 Вычисление квадрата числа</h3>
+    <input type="number" v-model="inputNumber" placeholder="Введите число">
+    <button @click="showSquare">Показать квадрат числа</button>
+  </div>
+
+  <script>
+    const { createApp } = Vue;
+    
+    const app = createApp({
+      data() {
+        return {
+          inputNumber: null
+        }
+      },
+      methods: {
+        // Задание 6: метод вывода квадрата числа
+        showSquare() {
+          if (this.inputNumber === null || this.inputNumber === '') {
+            alert('Пожалуйста, введите число');
+            return;
+          }
+          
+          const num = parseFloat(this.inputNumber);
+          
+          if (isNaN(num)) {
+            alert('Введите корректное число');
+            return;
+          }
+          
+          const square = num * num;
+          alert(`Квадрат числа ${num} = ${square}`);
+        }
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>
