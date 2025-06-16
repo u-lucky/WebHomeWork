@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Список элементов -->
+        <ul>
+            <li v-for="(item, index) in items" :key="index">
+                {{ item }}
+            </li>
+        </ul>
+        
+        <!-- Кнопка добавления -->
+        <button @click="addItem">Добавить элемент</button>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        
+        createApp({
+            data() {
+                return {
+                    items: ['Элемент 1', 'Элемент 2', 'Элемент 3']
+                }
+            },
+            methods: {
+                addItem() {
+                    // Добавляем новый элемент в конец массива
+                    const newIndex = this.items.length + 1;
+                    this.items.push(`Новый элемент ${newIndex}`);
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

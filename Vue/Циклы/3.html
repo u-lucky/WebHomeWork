@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <p v-for="n in 30" :key="n">
+            {{ n }}
+        </p>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        
+        createApp({
+            // data не требуется, так как используем статический диапазон
+        }).mount('#app');
+    </script>
+</body>
+</html>

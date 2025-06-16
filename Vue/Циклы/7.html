@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <!-- Список элементов -->
+        <ul>
+            <li v-for="(item, index) in items" :key="index">
+                {{ item }}
+            </li>
+        </ul>
+        
+        <!-- // Кнопка удаления -->
+        <button @click="removeFirsts">Удалить первый элемент</button>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        
+        createApp({
+            data() {
+                return {
+                    items: ['Первый', 'Второй', 'Третий', 'Четвертый']
+                }
+            },
+            methods: {
+                removeFirst() {
+                    // Удаляем первый элемент массива
+                    if (this.items.length > 0) {
+                        this.items.shift();
+                    }
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>

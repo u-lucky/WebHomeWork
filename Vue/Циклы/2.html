@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="(elem, index) in arr" :key="index">
+                {{ index }}
+            </li>
+        </ul>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+        
+        createApp({
+            data() {
+                return {
+                    arr: ['x', 'y', 'z']
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
