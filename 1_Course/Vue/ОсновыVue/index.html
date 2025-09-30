@@ -1,0 +1,55 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<title>Изучаем Vue 3</title> 
+<meta charset="utf-8" /> 
+</head> 
+<body> 
+<div id="app"> 
+<input type="text" v-on:input="setMessage" /> 
+<p>{{message}}</p> 
+</div> 
+<script src="https://unpkg.com/vue"></script> 
+<script> 
+    Vue.createApp({ 
+    data() { 
+        return { 
+        message: 'Hello Vue 3!' 
+           } 
+        }, 
+        methods: { 
+        setMessage(event) { 
+        this.message = event.target.value; 
+       } 
+    } 
+}).mount('#app'); 
+        </script> 
+        <template>
+  <div>
+    <h1>Привет, Vue 3!</h1>
+    <p>Это мой первый компонент. Здесь я изучаю основы фреймворка.</p>
+  </div>
+</template>
+
+<template>
+  <div>
+    <p>Число 1: {{ num1 }}</p>
+    <p>Число 2: {{ num2 }}</p>
+    <p>Число 3: {{ num3 }}</p>
+    <p>Сумма: {{ num1 + num2 + num3 }}</p>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      num1: 1,
+      num2: 2,
+      num3: 3
+    };
+  }
+};
+    </script>
+    </body> 
+</html> 
